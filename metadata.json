@@ -1,0 +1,7 @@
+{
+  "name": "Authenticator Live",
+  "description": "A simple, secure, and open-source two-factor authenticator (2FA) web app that works offline. Generate TOTP tokens from your secret key or by scanning a QR code.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
