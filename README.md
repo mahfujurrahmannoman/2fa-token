@@ -104,6 +104,11 @@ The app uses standard TOTP configuration:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
+
+- [OTPAuth](https://github.com/hectorm/otpauth) - JavaScript library for TOTP/HOTP
+- [jsQR](https://github.com/cozmo/jsQR) - QR code scanning library
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first CSS framework
+- [Vite](https://vitejs.dev) - Fast build tool and development server
 - Inspired by Google Authenticator and similar 2FA apps
 - Thanks to the open-source community for the amazing libraries
 
