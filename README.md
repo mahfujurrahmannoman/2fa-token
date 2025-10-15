@@ -104,8 +104,6 @@ The app uses standard TOTP configuration:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
-
-- Built with ❤️ by [CheckVCC.com](https://checkvcc.com)
 - Inspired by Google Authenticator and similar 2FA apps
 - Thanks to the open-source community for the amazing libraries
 
