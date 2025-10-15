@@ -2,8 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { TokenDisplay } from './components/TokenDisplay';
 import { QrScanner } from './components/QrScanner';
 import { CameraIcon, ClipboardCheckIcon, ClipboardIcon } from './components/icons';
-
-declare const OTPAuth: any;
+import * as OTPAuth from 'otpauth';
 
 const App: React.FC = () => {
     const [secret, setSecret] = useState<string>('');
