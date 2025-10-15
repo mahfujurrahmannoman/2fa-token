@@ -155,12 +155,6 @@ const App: React.FC = () => {
                         </section>
                     </div>
                     <footer className="text-center mt-8 text-slate-500 text-sm max-w-md mx-auto">
-                        <p>
-                            A secure authenticator app by{' '}
-                            <a href="https://checkvcc.com" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">
-                                checkvcc.com
-                            </a>.
-                        </p>
                         <p className="text-xs mt-2">Everything is processed in your browser. Your secret key never leaves your device.</p>
                     </footer>
                 </main>
