@@ -31,7 +31,7 @@ A secure, modern Two-Factor Authentication (2FA) token generator built with Reac
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/huzaifaalmesbah/2fa-token.git
+   git clone https://github.com/onlinesurvive/2fa-token.git
    cd 2fa-token
    ```
 
