@@ -1,8 +1,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import { CloseIcon } from './icons';
-
-declare const jsQR: any;
+import jsQR from 'jsqr';
 
 interface QrScannerProps {
     onScanSuccess: (data: string) => void;
