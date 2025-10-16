@@ -114,7 +114,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Live Demo**: [2FA Authenticator Live](https://your-demo-url.com)
+- **Live Demo**: [2FA Authenticator Live](https://v0-new-project-iiqygvopbi6.vercel.app/)
 - **Repository**: [GitHub](https://github.com/huzaifaalmesbah/2fa-token)
 - **Issues**: [Report Issues](https://github.com/huzaifaalmesbah/2fa-token/issues)
 
