@@ -24,23 +24,27 @@ A secure, modern Two-Factor Authentication (2FA) token generator built with Reac
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or yarn
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/onlinesurvive/2fa-token.git
    cd 2fa-token
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```
@@ -80,6 +84,7 @@ The built files will be in the `dist` directory, ready for deployment.
 ## 🔧 Configuration
 
 The app uses standard TOTP configuration:
+
 - **Algorithm**: SHA1
 - **Digits**: 6
 - **Period**: 30 seconds
@@ -114,9 +119,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Live Demo**: [2FA Authenticator Live](https://your-demo-url.com)
-- **Repository**: [GitHub](https://github.com/huzaifaalmesbah/2fa-token)
-- **Issues**: [Report Issues](https://github.com/huzaifaalmesbah/2fa-token/issues)
+- **Live Demo**: [2FA Authenticator Live](https://v0-new-project-iiqygvopbi6.vercel.app/)
+- **Repository**: [GitHub](https://github.com/mahfujurrahmannoman/2fa-token)
+- **Issues**: [Report Issues](https://github.com/mahfujurrahmannoman/2fa-token/issues)
 
 ---
 
