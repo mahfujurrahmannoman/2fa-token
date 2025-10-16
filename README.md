@@ -15,12 +15,14 @@ A secure, modern Two-Factor Authentication (2FA) token generator built with Reac
 ## � Screenshots
 
 ### Before Input
-*Clean interface prompting user to input their secret key*
+
+_Clean interface prompting user to input their secret key_
 
 ![Before Input](Screenshot1.png)
 
 ### After Input
-*Token display with real-time countdown timer*
+
+_Token display with real-time countdown timer_
 
 ![After Input](Screenshot2.png)
 
