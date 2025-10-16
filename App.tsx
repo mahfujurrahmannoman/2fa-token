@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { TokenDisplay } from './components/TokenDisplay';
 import { QrScanner } from './components/QrScanner';
-import { CameraIcon, ClipboardCheckIcon, ClipboardIcon } from './components/icons';
+import { CameraIcon, ClipboardCheckIcon, ClipboardIcon, ClipboardPasteIcon } from './components/icons';
 import * as OTPAuth from 'otpauth';
 
 const App: React.FC = () => {
@@ -88,6 +88,16 @@ const App: React.FC = () => {
         }
     };
 
+    const handlePasteSecret = async () => {
+        try {
+            const text = await navigator.clipboard.readText();
+            setSecret(text.replace(/\s/g, '').toUpperCase());
+        } catch (err) {
+            setError('Failed to read from clipboard. Please paste manually.');
+            console.error('Failed to read clipboard:', err);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-slate-900 text-slate-100 font-sans">
             <div className="md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 min-h-screen">
@@ -139,18 +149,36 @@ const App: React.FC = () => {
                             {error && <p className="text-red-400 text-center mt-4 text-sm">{error}</p>}
                             
                             <div className="mt-8">
-                                <TokenDisplay token={token} timeLeft={timeLeft} />
+                                {secret ? (
+                                    <TokenDisplay token={token} timeLeft={timeLeft} />
+                                ) : (
+                                    <div className="flex flex-col items-center justify-center p-6 bg-slate-900/50 rounded-lg border border-slate-700 min-h-[200px]">
+                                        <p className="text-slate-400 text-lg mb-4">Input your secret key</p>
+                                        <button
+                                            onClick={handlePasteSecret}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-slate-700 hover:bg-cyan-500 rounded-md border-2 border-slate-600 hover:border-cyan-500 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-cyan-500"
+                                            aria-label="Paste secret key from clipboard"
+                                        >
+                                            <ClipboardPasteIcon className="w-5 h-5" />
+                                            <span>Paste from Clipboard</span>
+                                        </button>
+                                    </div>
+                                )}
                             </div>
 
                             <div className="mt-8 flex justify-center">
-                                <button
-                                    onClick={handleCopy}
-                                    disabled={!token}
-                                    className="w-full flex items-center justify-center space-x-2 px-6 py-4 bg-cyan-600 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-700 disabled:bg-slate-600 disabled:cursor-not-allowed transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-cyan-500"
-                                >
-                                    {copied ? <ClipboardCheckIcon className="w-6 h-6" /> : <ClipboardIcon className="w-6 h-6" />}
-                                    <span>{copied ? 'Copied!' : 'Copy Token'}</span>
-                                </button>
+                                {secret ? (
+                                    <button
+                                        onClick={handleCopy}
+                                        disabled={!token}
+                                        className="w-full flex items-center justify-center space-x-2 px-6 py-4 bg-cyan-600 text-white font-semibold rounded-lg shadow-md hover:bg-cyan-700 disabled:bg-slate-600 disabled:cursor-not-allowed transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-cyan-500"
+                                    >
+                                        {copied ? <ClipboardCheckIcon className="w-6 h-6" /> : <ClipboardIcon className="w-6 h-6" />}
+                                        <span>{copied ? 'Copied!' : 'Copy Token'}</span>
+                                    </button>
+                                ) : (
+                                    <div className="w-full h-[100px]"></div>
+                                )}
                             </div>
                         </section>
                     </div>
