@@ -12,7 +12,19 @@ A secure, modern Two-Factor Authentication (2FA) token generator built with Reac
 - 📱 **Responsive Design** - Works perfectly on desktop and mobile
 - 🚀 **Fast & Lightweight** - Built with Vite for optimal performance
 
-## 🛠️ Tech Stack
+## � Screenshots
+
+### Before Input
+*Clean interface prompting user to input their secret key*
+
+![Before Input](Screenshot1.png)
+
+### After Input
+*Token display with real-time countdown timer*
+
+![After Input](Screenshot2.png)
+
+## �🛠️ Tech Stack
 
 - **React 19** - Modern React with latest features
 - **TypeScript** - Type-safe development
