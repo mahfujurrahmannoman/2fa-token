@@ -100,27 +100,29 @@ const App: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-slate-900 text-slate-100 font-sans">
-            <div className="md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 min-h-screen">
+            <div className="flex flex-col md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 min-h-screen">
                 {/* Left Ad Space - WarAccounts */}
-                <aside className="hidden md:flex items-center justify-center p-4">
+                <aside className="md:flex items-center justify-center p-4 order-2 md:order-1">
                     <a href="https://waraccounts.com" target="_blank" rel="noopener noreferrer" className="block w-full group">
-                        <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 border border-amber-500/30 rounded-xl p-6 hover:border-amber-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10">
-                            <div className="text-center space-y-4">
-                                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 border border-amber-500/30 rounded-xl p-4 md:p-6 hover:border-amber-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10">
+                            <div className="flex md:flex-col items-center md:text-center gap-4 md:gap-0 md:space-y-4">
+                                <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 md:mx-auto bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
-                                <h3 className="text-2xl font-bold text-amber-400 group-hover:text-amber-300 transition-colors">WarAccounts</h3>
-                                <p className="text-slate-400 text-sm leading-relaxed">Premium Gaming Accounts & Digital Services</p>
-                                <div className="space-y-2 text-xs text-slate-500">
-                                    <p>Verified Sellers</p>
-                                    <p>Instant Delivery</p>
-                                    <p>24/7 Support</p>
+                                <div className="flex-1 md:flex-none">
+                                    <h3 className="text-lg md:text-2xl font-bold text-amber-400 group-hover:text-amber-300 transition-colors">WarAccounts</h3>
+                                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed mt-1">Buy Social Media Accounts</p>
+                                    <div className="hidden md:block space-y-2 text-xs text-slate-500 mt-3">
+                                        <p>Facebook, Instagram, Twitter</p>
+                                        <p>TikTok, YouTube & More</p>
+                                        <p>Aged & Verified Accounts</p>
+                                    </div>
                                 </div>
-                                <div className="pt-4">
-                                    <span className="inline-block px-4 py-2 bg-amber-500/20 text-amber-400 rounded-full text-sm font-medium group-hover:bg-amber-500/30 transition-colors">
-                                        Visit Now
+                                <div className="md:pt-4 flex-shrink-0">
+                                    <span className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-amber-500/20 text-amber-400 rounded-full text-xs md:text-sm font-medium group-hover:bg-amber-500/30 transition-colors">
+                                        Shop Now
                                     </span>
                                 </div>
                             </div>
@@ -129,7 +131,7 @@ const App: React.FC = () => {
                 </aside>
 
                 {/* Main App Content */}
-                <main className="flex flex-col items-center justify-center p-4">
+                <main className="flex flex-col items-center justify-center p-4 order-1 md:order-2">
                     {isScanning && (
                         <QrScanner
                             onScanSuccess={handleScanSuccess}
@@ -209,25 +211,27 @@ const App: React.FC = () => {
                 </main>
 
                 {/* Right Ad Space - CheckVCC */}
-                <aside className="hidden md:flex items-center justify-center p-4">
+                <aside className="md:flex items-center justify-center p-4 order-3">
                     <a href="https://checkvcc.com" target="_blank" rel="noopener noreferrer" className="block w-full group">
-                        <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 border border-emerald-500/30 rounded-xl p-6 hover:border-emerald-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
-                            <div className="text-center space-y-4">
-                                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
-                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                        <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 border border-emerald-500/30 rounded-xl p-4 md:p-6 hover:border-emerald-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
+                            <div className="flex md:flex-col items-center md:text-center gap-4 md:gap-0 md:space-y-4">
+                                <div className="w-12 h-12 md:w-16 md:h-16 flex-shrink-0 md:mx-auto bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg className="w-6 h-6 md:w-8 md:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
-                                <h3 className="text-2xl font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors">CheckVCC</h3>
-                                <p className="text-slate-400 text-sm leading-relaxed">Virtual Credit Card Verification & Validation</p>
-                                <div className="space-y-2 text-xs text-slate-500">
-                                    <p>Fast BIN Checker</p>
-                                    <p>Card Validation</p>
-                                    <p>Secure & Reliable</p>
+                                <div className="flex-1 md:flex-none">
+                                    <h3 className="text-lg md:text-2xl font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors">CheckVCC</h3>
+                                    <p className="text-slate-400 text-xs md:text-sm leading-relaxed mt-1">Buy Verified Accounts</p>
+                                    <div className="hidden md:block space-y-2 text-xs text-slate-500 mt-3">
+                                        <p>Old Gmail Accounts</p>
+                                        <p>Facebook Verified Accounts</p>
+                                        <p>Instant Delivery & Support</p>
+                                    </div>
                                 </div>
-                                <div className="pt-4">
-                                    <span className="inline-block px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-sm font-medium group-hover:bg-emerald-500/30 transition-colors">
-                                        Check Now
+                                <div className="md:pt-4 flex-shrink-0">
+                                    <span className="inline-block px-3 py-1.5 md:px-4 md:py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-xs md:text-sm font-medium group-hover:bg-emerald-500/30 transition-colors">
+                                        Buy Now
                                     </span>
                                 </div>
                             </div>
