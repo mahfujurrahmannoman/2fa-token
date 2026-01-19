@@ -184,6 +184,7 @@ const App: React.FC = () => {
                     </div>
                     <footer className="text-center mt-8 text-slate-500 text-sm max-w-md mx-auto">
                         <p className="text-xs mt-2">Everything is processed in your browser. Your secret key never leaves your device.</p>
+                        <p className="text-xs mt-2">Developer <a href="https://onlinecreative.net" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 transition-colors">Online Creative Network</a></p>
                     </footer>
                 </main>
 
