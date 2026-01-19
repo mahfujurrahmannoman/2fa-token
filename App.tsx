@@ -101,11 +101,31 @@ const App: React.FC = () => {
     return (
         <div className="min-h-screen bg-slate-900 text-slate-100 font-sans">
             <div className="md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8 min-h-screen">
-                {/* Left Ad Space */}
+                {/* Left Ad Space - WarAccounts */}
                 <aside className="hidden md:flex items-center justify-center p-4">
-                    <div className="w-full h-96 bg-slate-800/50 border border-slate-700 rounded-lg flex items-center justify-center text-slate-500">
-                        Ad Space
-                    </div>
+                    <a href="https://waraccounts.com" target="_blank" rel="noopener noreferrer" className="block w-full group">
+                        <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 border border-amber-500/30 rounded-xl p-6 hover:border-amber-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/10">
+                            <div className="text-center space-y-4">
+                                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-amber-400 group-hover:text-amber-300 transition-colors">WarAccounts</h3>
+                                <p className="text-slate-400 text-sm leading-relaxed">Premium Gaming Accounts & Digital Services</p>
+                                <div className="space-y-2 text-xs text-slate-500">
+                                    <p>Verified Sellers</p>
+                                    <p>Instant Delivery</p>
+                                    <p>24/7 Support</p>
+                                </div>
+                                <div className="pt-4">
+                                    <span className="inline-block px-4 py-2 bg-amber-500/20 text-amber-400 rounded-full text-sm font-medium group-hover:bg-amber-500/30 transition-colors">
+                                        Visit Now
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </aside>
 
                 {/* Main App Content */}
@@ -188,11 +208,31 @@ const App: React.FC = () => {
                     </footer>
                 </main>
 
-                {/* Right Ad Space */}
+                {/* Right Ad Space - CheckVCC */}
                 <aside className="hidden md:flex items-center justify-center p-4">
-                    <div className="w-full h-96 bg-slate-800/50 border border-slate-700 rounded-lg flex items-center justify-center text-slate-500">
-                        Ad Space
-                    </div>
+                    <a href="https://checkvcc.com" target="_blank" rel="noopener noreferrer" className="block w-full group">
+                        <div className="w-full bg-gradient-to-br from-slate-800 to-slate-900 border border-emerald-500/30 rounded-xl p-6 hover:border-emerald-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-emerald-500/10">
+                            <div className="text-center space-y-4">
+                                <div className="w-16 h-16 mx-auto bg-gradient-to-br from-emerald-500 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
+                                    <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                    </svg>
+                                </div>
+                                <h3 className="text-2xl font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors">CheckVCC</h3>
+                                <p className="text-slate-400 text-sm leading-relaxed">Virtual Credit Card Verification & Validation</p>
+                                <div className="space-y-2 text-xs text-slate-500">
+                                    <p>Fast BIN Checker</p>
+                                    <p>Card Validation</p>
+                                    <p>Secure & Reliable</p>
+                                </div>
+                                <div className="pt-4">
+                                    <span className="inline-block px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-sm font-medium group-hover:bg-emerald-500/30 transition-colors">
+                                        Check Now
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
                 </aside>
             </div>
         </div>
