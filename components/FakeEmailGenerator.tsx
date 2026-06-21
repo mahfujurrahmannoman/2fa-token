@@ -23,6 +23,48 @@ const LAST_NAMES = [
     'thomas', 'moore', 'jackson', 'white', 'harris', 'martin', 'garcia', 'roberts',
 ];
 
+type EmailStyleId =
+    | 'mix'
+    | 'dot'
+    | 'plain'
+    | 'underscore'
+    | 'dotnum'
+    | 'firstnum'
+    | 'flastnum'
+    | 'firstlnum';
+
+interface EmailStyle {
+    id: EmailStyleId;
+    label: string;
+    example: string;
+}
+
+const EMAIL_STYLES: EmailStyle[] = [
+    { id: 'mix', label: 'Mix (all styles)', example: 'random' },
+    { id: 'dot', label: 'first.last', example: 'alex.smith' },
+    { id: 'plain', label: 'firstlast', example: 'alexsmith' },
+    { id: 'underscore', label: 'first_last', example: 'alex_smith' },
+    { id: 'firstnum', label: 'first[number]', example: 'alex1234' },
+    { id: 'dotnum', label: 'first.last[number]', example: 'alex.smith1234' },
+    { id: 'flastnum', label: 'f[last][number]', example: 'asmit***h1234' },
+    { id: 'firstlnum', label: 'first[l][number]', example: 'alexs1234' },
+];
+
+const CONCRETE_STYLES: EmailStyleId[] = EMAIL_STYLES.filter(s => s.id !== 'mix').map(s => s.id);
+
+function buildEmail(style: EmailStyleId, first: string, last: string, num: number): string {
+    switch (style) {
+        case 'mix': return buildEmail(pick(CONCRETE_STYLES), first, last, num);
+        case 'dot': return `${first}.${last}`;
+        case 'plain': return `${first}${last}`;
+        case 'underscore': return `${first}_${last}`;
+        case 'firstnum': return `${first}${num}`;
+        case 'dotnum': return `${first}.${last}${num}`;
+        case 'flastnum': return `${first[0]}${last}${num}`;
+        case 'firstlnum': return `${first}${last[0]}${num}`;
+    }
+}
+
 const PRESETS: { label: string; value: string; hint?: string }[] = [
     { label: 'email:password', value: '{email}:{password}' },
     { label: 'email,password (CSV)', value: '{email},{password}' },
