@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { ClipboardIcon, ClipboardCheckIcon, DownloadIcon } from './icons';
 
 const DOMAINS = [
@@ -23,6 +23,17 @@ const LAST_NAMES = [
     'thomas', 'moore', 'jackson', 'white', 'harris', 'martin', 'garcia', 'roberts',
 ];
 
+const PRESETS: { label: string; value: string; hint?: string }[] = [
+    { label: 'email:password', value: '{email}:{password}' },
+    { label: 'email,password (CSV)', value: '{email},{password}' },
+    { label: 'email | password', value: '{email} | {password}' },
+    { label: 'email password (space)', value: '{email} {password}' },
+    { label: 'email [TAB] password', value: '{email}\t{password}' },
+    { label: 'email → password (arrow)', value: '{email} → {password}' },
+    { label: 'JSON array', value: '__json__' },
+    { label: 'Custom', value: '__custom__' },
+];
+
 function pick<T>(arr: T[]): T {
     return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -36,7 +47,6 @@ function randomPassword(length = 12): string {
     const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const digits = '0123456789';
     const symbols = '!@#$%&*?';
-    // Guarantee at least one of each class
     let pwd = '';
     pwd += lower[randInt(0, lower.length - 1)];
     pwd += upper[randInt(0, upper.length - 1)];
@@ -46,7 +56,6 @@ function randomPassword(length = 12): string {
     for (let i = pwd.length; i < length; i++) {
         pwd += all[randInt(0, all.length - 1)];
     }
-    // Fisher-Yates shuffle
     const chars = pwd.split('');
     for (let i = chars.length - 1; i > 0; i--) {
         const j = randInt(0, i);
@@ -76,11 +85,52 @@ interface Entry {
     password: string;
 }
 
+function formatEntry(e: Entry, fmt: string): string {
+    return fmt
+        .replace(/\{email\}/g, e.email)
+        .replace(/\{password\}/g, e.password);
+}
+
 export const FakeEmailGenerator: React.FC = () => {
     const [count, setCount] = useState<number>(5);
     const [domain, setDomain] = useState<string>('gmail.com');
     const [entries, setEntries] = useState<Entry[]>([]);
     const [copied, setCopied] = useState<number | 'all' | null>(null);
+
+    // Format system
+    const [format, setFormat] = useState<string>('{email}:{password}');
+    const [presetLabel, setPresetLabel] = useState<string>('email:password');
+
+    const outputRef = useRef<HTMLTextAreaElement>(null);
+
+    const isJson = format === '__json__';
+
+    const output = useMemo(() => {
+        if (entries.length === 0) return '';
+        if (isJson) return JSON.stringify(entries, null, 2);
+        return entries.map(e => formatEntry(e, format)).join('\n');
+    }, [entries, format, isJson]);
+
+    const handlePresetChange = (label: string) => {
+        setPresetLabel(label);
+        const found = PRESETS.find(p => p.label === label);
+        if (!found) return;
+        if (found.value === '__custom__') {
+            // Keep current format, user will type
+            return;
+        }
+        setFormat(found.value);
+    };
+
+    const handleFormatInput = (value: string) => {
+        setFormat(value);
+        const found = PRESETS.find(p => p.value === value);
+        if (found && found.value !== '__custom__') {
+            setPresetLabel(found.label);
+        } else {
+            setPresetLabel('Custom');
+        }
+    };
 
     const generate = () => {
         const next: Entry[] = [];
@@ -97,18 +147,29 @@ export const FakeEmailGenerator: React.FC = () => {
         setCopied(null);
     };
 
-    const copyRow = (i: number) => {
-        const e = entries[i];
-        if (!e) return;
-        navigator.clipboard.writeText(`${e.email}:${e.password}`).catch(() => {});
-        setCopied(i);
+    const copyOutput = async () => {
+        if (!output) return;
+        try {
+            await navigator.clipboard.writeText(output);
+        } catch {
+            // Fallback: select the textarea
+            outputRef.current?.select();
+            document.execCommand('copy');
+        }
+        setCopied('all');
         setTimeout(() => setCopied(null), 2000);
     };
 
-    const copyAll = () => {
-        const text = entries.map(e => `${e.email}:${e.password}`).join('\n');
+    const selectAll = () => {
+        outputRef.current?.select();
+    };
+
+    const copyRow = (i: number) => {
+        const e = entries[i];
+        if (!e) return;
+        const text = isJson ? JSON.stringify(e) : formatEntry(e, format);
         navigator.clipboard.writeText(text).catch(() => {});
-        setCopied('all');
+        setCopied(i);
         setTimeout(() => setCopied(null), 2000);
     };
 
@@ -176,52 +237,112 @@ export const FakeEmailGenerator: React.FC = () => {
 
             {entries.length > 0 && (
                 <>
-                    <div className="flex flex-wrap justify-end gap-2">
-                        <button
-                            onClick={copyAll}
-                            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                        >
-                            {copied === 'all' ? <ClipboardCheckIcon className="w-4 h-4 text-emerald-400" /> : <ClipboardIcon className="w-4 h-4" />}
-                            {copied === 'all' ? 'Copied!' : 'Copy all'}
-                        </button>
-                        <button
-                            onClick={downloadJson}
-                            className="flex items-center gap-2 px-3 py-2 text-sm bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                        >
-                            <DownloadIcon className="w-4 h-4" />
-                            JSON
-                        </button>
+                    {/* Format controls */}
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <label htmlFor="gen-format" className="block text-sm font-medium text-slate-300">
+                                Output format
+                            </label>
+                            <span className="text-xs text-slate-500">
+                                Use <code className="text-cyan-400 bg-slate-900 px-1 rounded">{'{email}'}</code> &amp; <code className="text-cyan-400 bg-slate-900 px-1 rounded">{'{password}'}</code>
+                            </span>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-2">
+                            <input
+                                id="gen-format"
+                                type="text"
+                                value={isJson ? '' : format}
+                                onChange={e => handleFormatInput(e.target.value)}
+                                placeholder="{email}:{password}"
+                                disabled={isJson}
+                                className="w-full bg-slate-700 text-slate-100 placeholder-slate-500 rounded-md px-4 py-2.5 border-2 border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors font-mono text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                            />
+                            <select
+                                value={presetLabel}
+                                onChange={e => handlePresetChange(e.target.value)}
+                                className="w-full sm:w-auto bg-slate-700 text-slate-100 rounded-md px-4 py-2.5 border-2 border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
+                            >
+                                {PRESETS.map(p => (
+                                    <option key={p.label} value={p.label}>{p.label}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
 
-                    <div className="overflow-x-auto rounded-lg border border-slate-700 max-h-[420px] overflow-y-auto">
-                        <table className="w-full text-sm">
-                            <thead className="bg-slate-900 text-slate-300 text-left sticky top-0">
-                                <tr>
-                                    <th className="px-4 py-3 font-medium">Email</th>
-                                    <th className="px-4 py-3 font-medium">Password</th>
-                                    <th className="px-4 py-3 font-medium w-14 text-right"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {entries.map((e, i) => (
-                                    <tr key={`${e.email}-${i}`} className="border-t border-slate-700 hover:bg-slate-700/30">
-                                        <td className="px-4 py-3 font-mono text-slate-100 break-all">{e.email}</td>
-                                        <td className="px-4 py-3 font-mono text-slate-100 break-all">{e.password}</td>
-                                        <td className="px-4 py-3 text-right">
-                                            <button
-                                                onClick={() => copyRow(i)}
-                                                className="p-1.5 text-slate-400 hover:text-cyan-400 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
-                                                title="Copy row"
-                                                aria-label={`Copy row ${i + 1}`}
-                                            >
-                                                {copied === i ? <ClipboardCheckIcon className="w-4 h-4 text-emerald-400" /> : <ClipboardIcon className="w-4 h-4" />}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    {/* Output box */}
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-slate-300">
+                                Output <span className="text-slate-500 font-normal">({entries.length} {entries.length === 1 ? 'entry' : 'entries'})</span>
+                            </span>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={selectAll}
+                                    className="text-xs px-2 py-1 text-slate-400 hover:text-cyan-400 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
+                                >
+                                    Select all
+                                </button>
+                                <button
+                                    onClick={copyOutput}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-cyan-600 hover:bg-cyan-700 text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-cyan-500"
+                                >
+                                    {copied === 'all' ? <ClipboardCheckIcon className="w-4 h-4" /> : <ClipboardIcon className="w-4 h-4" />}
+                                    {copied === 'all' ? 'Copied!' : 'Copy'}
+                                </button>
+                                <button
+                                    onClick={downloadJson}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-slate-700 hover:bg-slate-600 text-slate-100 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                    title="Always downloads JSON regardless of format"
+                                >
+                                    <DownloadIcon className="w-4 h-4" />
+                                    JSON
+                                </button>
+                            </div>
+                        </div>
+                        <textarea
+                            ref={outputRef}
+                            readOnly
+                            value={output}
+                            onClick={selectAll}
+                            className="w-full h-48 bg-slate-900 text-slate-100 font-mono text-xs md:text-sm rounded-md p-3 border-2 border-slate-700 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors resize-y"
+                            spellCheck={false}
+                        />
                     </div>
+
+                    {/* Reference table (compact) */}
+                    <details className="bg-slate-900/40 rounded-lg border border-slate-700">
+                        <summary className="cursor-pointer px-4 py-2.5 text-sm font-medium text-slate-300 hover:text-cyan-400 transition-colors select-none">
+                            View as table ({entries.length} {entries.length === 1 ? 'row' : 'rows'})
+                        </summary>
+                        <div className="overflow-x-auto border-t border-slate-700 max-h-[300px] overflow-y-auto">
+                            <table className="w-full text-sm">
+                                <thead className="bg-slate-900 text-slate-300 text-left sticky top-0">
+                                    <tr>
+                                        <th className="px-4 py-2.5 font-medium">Email</th>
+                                        <th className="px-4 py-2.5 font-medium">Password</th>
+                                        <th className="px-4 py-2.5 font-medium w-14 text-right"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {entries.map((e, i) => (
+                                        <tr key={`${e.email}-${i}`} className="border-t border-slate-700 hover:bg-slate-700/30">
+                                            <td className="px-4 py-2.5 font-mono text-slate-100 break-all">{e.email}</td>
+                                            <td className="px-4 py-2.5 font-mono text-slate-100 break-all">{e.password}</td>
+                                            <td className="px-4 py-2.5 text-right">
+                                                <button
+                                                    onClick={() => copyRow(i)}
+                                                    className="p-1 text-slate-400 hover:text-cyan-400 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500 rounded"
+                                                    title="Copy row in current format"
+                                                    aria-label={`Copy row ${i + 1}`}
+                                                >
+                                                    {copied === i ? <ClipboardCheckIcon className="w-4 h-4 text-emerald-400" /> : <ClipboardIcon className="w-4 h-4" />}
+                                                </button>
+                                            </td>
+                                        ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
                 </>
             )}
 
