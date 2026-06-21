@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import { ClipboardIcon, ClipboardCheckIcon, DownloadIcon } from './icons';
 
 const DOMAINS = [
+    { value: 'mix', label: 'Mix (all domains)' },
     { value: 'gmail.com', label: 'gmail.com' },
     { value: 'yahoo.com', label: 'yahoo.com' },
     { value: 'outlook.com', label: 'outlook.com' },
@@ -10,6 +11,8 @@ const DOMAINS = [
     { value: 'icloud.com', label: 'icloud.com' },
     { value: 'aol.com', label: 'aol.com' },
 ];
+
+const CONCRETE_DOMAINS = DOMAINS.filter(d => d.value !== 'mix').map(d => d.value);
 
 const FIRST_NAMES = [
     'alex', 'sam', 'jordan', 'taylor', 'morgan', 'casey', 'riley', 'avery',
@@ -110,7 +113,8 @@ function randomEmail(domain: string, style: EmailStyleId = 'mix'): string {
     const first = pick(FIRST_NAMES);
     const last = pick(LAST_NAMES);
     const num = randInt(1, 9999);
-    return `${buildEmail(style, first, last, num)}@${domain}`;
+    const actualDomain = domain === 'mix' ? pick(CONCRETE_DOMAINS) : domain;
+    return `${buildEmail(style, first, last, num)}@${actualDomain}`;
 }
 
 interface Entry {
@@ -126,7 +130,7 @@ function formatEntry(e: Entry, fmt: string): string {
 
 export const FakeEmailGenerator: React.FC = () => {
     const [count, setCount] = useState<number>(5);
-    const [domain, setDomain] = useState<string>('gmail.com');
+    const [domain, setDomain] = useState<string>('mix');
     const [style, setStyle] = useState<EmailStyleId>('mix');
     const [append, setAppend] = useState<boolean>(false);
     const [entries, setEntries] = useState<Entry[]>([]);
