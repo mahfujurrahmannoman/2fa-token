@@ -106,20 +106,11 @@ function randomPassword(length = 12): string {
     return chars.join('');
 }
 
-function randomEmail(domain: string): string {
+function randomEmail(domain: string, style: EmailStyleId = 'mix'): string {
     const first = pick(FIRST_NAMES);
     const last = pick(LAST_NAMES);
     const num = randInt(1, 9999);
-    const styles = [
-        `${first}.${last}`,
-        `${first}${last}`,
-        `${first}_${last}`,
-        `${first}${num}`,
-        `${first}.${last}${num}`,
-        `${first[0]}${last}${num}`,
-        `${first}${last[0]}${num}`,
-    ];
-    return `${pick(styles)}@${domain}`;
+    return `${buildEmail(style, first, last, num)}@${domain}`;
 }
 
 interface Entry {
@@ -136,6 +127,8 @@ function formatEntry(e: Entry, fmt: string): string {
 export const FakeEmailGenerator: React.FC = () => {
     const [count, setCount] = useState<number>(5);
     const [domain, setDomain] = useState<string>('gmail.com');
+    const [style, setStyle] = useState<EmailStyleId>('mix');
+    const [append, setAppend] = useState<boolean>(false);
     const [entries, setEntries] = useState<Entry[]>([]);
     const [copied, setCopied] = useState<number | 'all' | null>(null);
 
@@ -176,16 +169,22 @@ export const FakeEmailGenerator: React.FC = () => {
 
     const generate = () => {
         const next: Entry[] = [];
-        const seen = new Set<string>();
+        const seen = new Set<string>(append ? entries.map(e => e.email) : []);
         let attempts = 0;
-        while (next.length < count && attempts < count * 10) {
-            const email = randomEmail(domain);
+        const maxAttempts = Math.max(count * 20, 1000);
+        while (next.length < count && attempts < maxAttempts) {
+            const email = randomEmail(domain, style);
             attempts += 1;
             if (seen.has(email)) continue;
             seen.add(email);
             next.push({ email, password: randomPassword(12) });
         }
-        setEntries(next);
+        setEntries(prev => (append ? [...prev, ...next] : next));
+        setCopied(null);
+    };
+
+    const clearAll = () => {
+        setEntries([]);
         setCopied(null);
     };
 
@@ -235,7 +234,7 @@ export const FakeEmailGenerator: React.FC = () => {
                 <p className="text-slate-400 mt-2 text-sm md:text-base">Random test credentials for development &amp; QA — all generated in your browser.</p>
             </header>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                     <label htmlFor="gen-count" className="block text-sm font-medium text-slate-300 mb-1">
                         How many
@@ -244,11 +243,11 @@ export const FakeEmailGenerator: React.FC = () => {
                         id="gen-count"
                         type="number"
                         min={1}
-                        max={100}
+                        max={10000}
                         value={count}
                         onChange={e => {
                             const v = parseInt(e.target.value, 10);
-                            setCount(Number.isFinite(v) ? Math.max(1, Math.min(100, v)) : 1);
+                            setCount(Number.isFinite(v) ? Math.max(1, Math.min(10000, v)) : 1);
                         }}
                         className="w-full bg-slate-700 text-slate-100 rounded-md px-4 py-3 border-2 border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
                     />
@@ -268,13 +267,49 @@ export const FakeEmailGenerator: React.FC = () => {
                         ))}
                     </select>
                 </div>
+                <div>
+                    <label htmlFor="gen-style" className="block text-sm font-medium text-slate-300 mb-1">
+                        Email style
+                    </label>
+                    <select
+                        id="gen-style"
+                        value={style}
+                        onChange={e => setStyle(e.target.value as EmailStyleId)}
+                        className="w-full bg-slate-700 text-slate-100 rounded-md px-4 py-3 border-2 border-slate-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors"
+                    >
+                        {EMAIL_STYLES.map(s => (
+                            <option key={s.id} value={s.id}>{s.label}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            <div className="flex items-center justify-between gap-4 flex-wrap">
+                <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer select-none">
+                    <input
+                        type="checkbox"
+                        checked={append}
+                        onChange={e => setAppend(e.target.checked)}
+                        className="w-4 h-4 rounded border-slate-600 bg-slate-700 text-cyan-600 focus:ring-2 focus:ring-cyan-500 focus:ring-offset-0"
+                    />
+                    <span>Append to existing list</span>
+                    <span className="text-xs text-slate-500">(keep adding without clearing)</span>
+                </label>
+                {entries.length > 0 && (
+                    <button
+                        onClick={clearAll}
+                        className="text-sm px-3 py-1.5 text-slate-400 hover:text-red-400 hover:bg-slate-700/50 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    >
+                        Clear all ({entries.length})
+                    </button>
+                )}
             </div>
 
             <button
                 onClick={generate}
                 className="w-full px-6 py-3 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-cyan-500"
             >
-                Generate
+                {append && entries.length > 0 ? `Generate ${count} more` : `Generate ${count}`}
             </button>
 
             {entries.length > 0 && (
