@@ -100,13 +100,13 @@ export const FakeEmailGenerator: React.FC = () => {
     const copyRow = (i: number) => {
         const e = entries[i];
         if (!e) return;
-        navigator.clipboard.writeText(`${e.email}  ${e.password}`).catch(() => {});
+        navigator.clipboard.writeText(`${e.email}:${e.password}`).catch(() => {});
         setCopied(i);
         setTimeout(() => setCopied(null), 2000);
     };
 
     const copyAll = () => {
-        const text = entries.map(e => `${e.email}  ${e.password}`).join('\n');
+        const text = entries.map(e => `${e.email}:${e.password}`).join('\n');
         navigator.clipboard.writeText(text).catch(() => {});
         setCopied('all');
         setTimeout(() => setCopied(null), 2000);

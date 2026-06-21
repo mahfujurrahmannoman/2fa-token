@@ -97,10 +97,30 @@ const Header: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = ({ a
         { id: 'email', label: 'Fake Email Generator', icon: <MailIcon className="w-4 h-4" /> },
     ];
 
+    const menuItems: { label: string; href: string }[] = [
+        { label: 'Home', href: '#home' },
+        { label: 'Tools', href: '#tools' },
+        { label: 'Blog', href: 'https://blog.2fasecret.com' },
+        { label: 'About', href: '#about' },
+    ];
+
+    const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const el = document.querySelector(href);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            setMobileOpen(false);
+        }
+    };
+
     return (
         <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-700 shadow-lg">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
-                <a href="#" onClick={(e) => { e.preventDefault(); onTabChange('auth'); }} className="flex items-center gap-2 group">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 h-16">
+                <a href="#" onClick={(e) => { e.preventDefault(); onTabChange('auth'); }} className="flex items-center gap-2 group flex-shrink-0">
                     <div className="w-9 h-9 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-cyan-500/30 transition-shadow">
                         <KeyIcon className="w-5 h-5 text-white" />
                     </div>
@@ -108,8 +128,24 @@ const Header: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = ({ a
                     <span className="font-bold text-lg text-slate-100 sm:hidden">2FA Hub</span>
                 </a>
 
-                {/* Desktop nav */}
-                <nav className="hidden md:flex items-center gap-1 bg-slate-800/60 rounded-lg p-1 border border-slate-700">
+                {/* Center menu (desktop) */}
+                <nav className="hidden md:flex items-center gap-1 flex-1 justify-center">
+                    {menuItems.map(item => (
+                        <a
+                            key={item.label}
+                            href={item.href}
+                            onClick={(e) => handleMenuClick(e, item.href)}
+                            target={item.href.startsWith('http') ? '_blank' : undefined}
+                            rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                            className="px-3 py-2 text-sm font-medium text-slate-300 hover:text-cyan-400 rounded-md hover:bg-slate-800/50 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                        >
+                            {item.label}
+                        </a>
+                    ))}
+                </nav>
+
+                {/* Right tab nav (desktop) */}
+                <nav className="hidden md:flex items-center gap-1 bg-slate-800/60 rounded-lg p-1 border border-slate-700 flex-shrink-0">
                     {tabs.map(t => (
                         <button
                             key={t.id}
@@ -147,6 +183,20 @@ const Header: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = ({ a
             {mobileOpen && (
                 <nav className="md:hidden border-t border-slate-700 bg-slate-900/98 backdrop-blur">
                     <div className="px-4 py-2 space-y-1">
+                        <div className="pt-1 pb-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">Menu</div>
+                        {menuItems.map(item => (
+                            <a
+                                key={item.label}
+                                href={item.href}
+                                onClick={(e) => handleMenuClick(e, item.href)}
+                                target={item.href.startsWith('http') ? '_blank' : undefined}
+                                rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                className="block px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-cyan-400 rounded-md transition-colors"
+                            >
+                                {item.label}
+                            </a>
+                        ))}
+                        <div className="pt-3 pb-1 text-xs font-semibold text-slate-500 uppercase tracking-wider">Tools</div>
                         {tabs.map(t => (
                             <button
                                 key={t.id}
