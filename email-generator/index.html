@@ -6,20 +6,20 @@
     <meta name="theme-color" content="#0f172a" />
     <meta name="color-scheme" content="dark" />
 
-    <title>Free 2FA Authenticator — Generate TOTP Codes Online | 2FA Tools Hub</title>
-    <meta name="description" content="Free browser-based 2FA authenticator. Generate TOTP codes for Google, Facebook, GitHub, Discord &amp; more. QR code scanner, clipboard paste, 100% private — your secret never leaves your device." />
-    <meta name="keywords" content="2fa authenticator, TOTP, two-factor authentication, OTP generator, Google Authenticator alternative, online authenticator, free 2FA, browser authenticator, secure authenticator, time-based one-time password" />
+    <title>Free Fake Email &amp; Password Generator — Random Test Credentials | 2FA Tools Hub</title>
+    <meta name="description" content="Generate random fake email addresses and strong passwords for QA testing, form validation, and load testing. Pick a domain, count, and output format. 100% browser-side, no signup, no data sent." />
+    <meta name="keywords" content="fake email generator, random email generator, test email, dummy email, password generator, random password, test credentials, QA tools, fake account generator, email password generator" />
     <meta name="author" content="Online Creative Network" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="googlebot" content="index, follow" />
-    <link rel="canonical" href="https://2fasecret.com/" />
+    <link rel="canonical" href="https://2fasecret.com/email-generator/" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="2FA Tools Hub" />
-    <meta property="og:title" content="Free 2FA Authenticator — Generate TOTP Codes Online" />
-    <meta property="og:description" content="Generate secure 2FA TOTP codes in your browser. Free, private, no signup. Works with Google, Facebook, GitHub, Discord, and more." />
-    <meta property="og:url" content="https://2fasecret.com/" />
+    <meta property="og:title" content="Free Fake Email &amp; Password Generator — Random Test Credentials" />
+    <meta property="og:description" content="Generate random fake emails and strong passwords for testing. Pick domain, count, and output format. 100% browser-side, free, no signup." />
+    <meta property="og:url" content="https://2fasecret.com/email-generator/" />
     <meta property="og:image" content="https://2fasecret.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -27,8 +27,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Free 2FA Authenticator — Generate TOTP Codes Online" />
-    <meta name="twitter:description" content="Generate secure 2FA TOTP codes in your browser. Free, private, no signup." />
+    <meta name="twitter:title" content="Free Fake Email &amp; Password Generator — Random Test Credentials" />
+    <meta name="twitter:description" content="Generate random fake emails and strong passwords for testing. 100% browser-side, free, no signup." />
     <meta name="twitter:image" content="https://2fasecret.com/og-image.png" />
 
     <!-- Favicon -->
@@ -57,10 +57,10 @@
     {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "2FA Tools Hub — 2FA Authenticator",
-      "url": "https://2fasecret.com/",
-      "description": "Free browser-based 2FA authenticator. Generate TOTP codes for any service that supports two-factor authentication. 100% private, no signup, no data sent to any server.",
-      "applicationCategory": "SecurityApplication",
+      "name": "2FA Tools Hub — Fake Email & Password Generator",
+      "url": "https://2fasecret.com/email-generator/",
+      "description": "Generate random fake email addresses and strong passwords for software testing, QA, and form validation. 100% browser-side, no data sent to any server.",
+      "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Any (Browser-based)",
       "browserRequirements": "Requires JavaScript. Works on Chrome, Firefox, Safari, Edge.",
       "offers": {
@@ -69,18 +69,13 @@
         "priceCurrency": "USD"
       },
       "featureList": [
-        "TOTP code generation",
-        "QR code scanner",
-        "Clipboard paste support",
-        "No data sent to server",
-        "Works offline",
-        "Standard RFC 6238 compatibility"
-      ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "127"
-      }
+        "Random email generation",
+        "Strong 12-character passwords",
+        "Multiple domain support (Gmail, Yahoo, Outlook, etc.)",
+        "Custom output formats",
+        "JSON export",
+        "No data sent to server"
+      ]
     }
     </script>
 
@@ -91,26 +86,34 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Is this authenticator safe to use?",
+          "name": "Can I use these for real accounts?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. Everything runs in your browser. The secret key you enter is processed locally and never sent over the network. There is no backend, no analytics, and no tracking."
+            "text": "No. These are explicitly fake — they aren't real inboxes and won't receive mail. They're for testing, demos, and documentation only."
           }
         },
         {
           "@type": "Question",
-          "name": "What if I lose my secret key?",
+          "name": "Is there a rate limit?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Your secret key is the master code. Without it, you can't regenerate valid codes. Most services provide backup codes or recovery options during 2FA setup — save those in a secure location."
+            "text": "No. You can generate up to 100 entries per batch, and run as many batches as you want. There's no server, so there's no limit."
           }
         },
         {
           "@type": "Question",
-          "name": "Why don't my codes work?",
+          "name": "How do I export the data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Make sure your device's clock is accurate. TOTP codes are time-based, so a wrong clock means wrong codes. Most services allow a 30-second drift before rejecting codes."
+            "text": "Use the JSON button to download a .json file with all entries. For other formats, use the format selector and copy from the output box."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you store any of this?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Everything is generated in your browser. Closing the tab erases everything. We don't have a backend, so we physically can't store your data."
           }
         }
       ]
@@ -131,22 +134,21 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "2FA Authenticator",
-          "item": "https://2fasecret.com/"
+          "name": "Fake Email & Password Generator",
+          "item": "https://2fasecret.com/email-generator/"
         }
       ]
     }
     </script>
 
-    <script type="module" src="/index.tsx"></script>
+    <script type="module" src="/email-generator/main.tsx"></script>
   </head>
   <body class="bg-slate-900">
     <div id="root"></div>
     <noscript>
       <div style="padding:2rem;text-align:center;color:#fff;background:#0f172a;font-family:sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center">
-        <h1 style="color:#22d3ee">2FA Tools Hub</h1>
-        <p>This site requires JavaScript to generate 2FA codes. Please enable JavaScript and reload the page.</p>
-        <p style="margin-top:1rem;font-size:.9rem;color:#94a3b8">A 2FA authenticator needs JavaScript to compute time-based codes in your browser. We don't have a server-side fallback because we never want to handle your secret key.</p>
+        <h1 style="color:#22d3ee">2FA Tools Hub — Fake Email Generator</h1>
+        <p>This tool requires JavaScript to generate random credentials. Please enable JavaScript and reload the page.</p>
       </div>
     </noscript>
   </body>
