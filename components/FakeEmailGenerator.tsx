@@ -338,7 +338,8 @@ export const FakeEmailGenerator: React.FC = () => {
                                                     {copied === i ? <ClipboardCheckIcon className="w-4 h-4 text-emerald-400" /> : <ClipboardIcon className="w-4 h-4" />}
                                                 </button>
                                             </td>
-                                        ))}
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>
