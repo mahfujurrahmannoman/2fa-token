@@ -105,8 +105,8 @@ const Header: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = ({ a
 
     return (
         <header className="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-700 shadow-lg">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between gap-4 h-16">
-                <a href="#" onClick={(e) => { e.preventDefault(); handleTabClick('auth'); }} className="flex items-center gap-2 group flex-shrink-0">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-[1fr_auto_1fr] items-center gap-4 h-16">
+                <a href="#" onClick={(e) => { e.preventDefault(); handleTabClick('auth'); }} className="flex items-center gap-2 group justify-self-start">
                     <div className="w-9 h-9 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-cyan-500/30 transition-shadow">
                         <KeyIcon className="w-5 h-5 text-white" />
                     </div>
@@ -114,8 +114,8 @@ const Header: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = ({ a
                     <span className="font-bold text-lg text-slate-100 sm:hidden">2FA Hub</span>
                 </a>
 
-                {/* Center menu (desktop) — only the two tool buttons */}
-                <nav className="hidden md:flex items-center gap-1 bg-slate-800/60 rounded-lg p-1 border border-slate-700 flex-1 justify-center max-w-xl">
+                {/* Center menu (desktop) — only the two tool buttons, truly centered */}
+                <nav className="hidden md:flex items-center gap-1 bg-slate-800/60 rounded-lg p-1 border border-slate-700 justify-self-center">
                     {tabs.map(t => (
                         <button
                             key={t.id}
@@ -133,10 +133,13 @@ const Header: React.FC<{ activeTab: Tab; onTabChange: (t: Tab) => void }> = ({ a
                     ))}
                 </nav>
 
-                {/* Mobile menu button */}
+                {/* Right-side placeholder (desktop) keeps the center truly centered */}
+                <div className="hidden md:block justify-self-end" aria-hidden="true" />
+
+                {/* Mobile menu button (replaces right placeholder on mobile) */}
                 <button
                     onClick={() => setMobileOpen(o => !o)}
-                    className="md:hidden p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                    className="md:hidden justify-self-end p-2 rounded-md text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                     aria-label="Toggle menu"
                     aria-expanded={mobileOpen}
                 >
