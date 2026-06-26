@@ -25,3 +25,7 @@ dist-ssr
 
 # OpenClaw local files (credentials, helper configs)
 .openclaw/
+
+# OpenClaw workspace artifacts (added on cleanup)
+.openclaw_autopush.sh
+.openclaw/
